@@ -10,7 +10,7 @@ class KnightTravails
   def knight_moves
     grade_board
     path = @path_map[@stop]
-    puts "You made it in #{path} moves! Here's your path:"
+    puts "You made it in #{path.count} moves! Here's your path:"
     path.each { |move| p move }
   end
 
@@ -43,6 +43,13 @@ class KnightTravails
     @all_moves_h.keys.select { |e| e[0..1] == sub_name }.flatten
   end
 
+  def all_moves
+    infinity = 1 / 0.0
+    moves = @board.map { |start| valid_moves(start) }
+    board_hash = Hash[@board.zip moves]
+    board_hash.transform_keys { |k| k + [infinity] }
+  end
+
   def valid_moves(start)
     @board.select { |stop| valid_move?(start, stop) }
   end
@@ -62,12 +69,5 @@ class KnightTravails
     nums = (1..8).to_a
 
     nums.product(nums)
-  end
-
-  def all_moves
-    infinity = 1 / 0.0
-    moves = @board.map { |start| valid_moves(start) }
-    board_hash = Hash[@board.zip moves]
-    board_hash.transform_keys { |k| k + [infinity] }
   end
 end
